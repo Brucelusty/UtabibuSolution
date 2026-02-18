@@ -217,9 +217,7 @@ report 173011 "Note 13"
                 if AsOfDateParam = 0D then
                     AsOfDateParam := WorkDate();
                     
-// git remote add origin https://github.com/Brucelusty/Doctors-SACCO.git
-// git branch -M main
-// git push -u origin main
+
                 UpdateDateRanges();
 
                 // Calculate aggregated values
@@ -456,4 +454,9 @@ report 173011 "Note 13"
         GLEntry: Record "G/L Entry";
     begin
         GLEntry.SetRange("G/L Account No.", AccountNo);
-        GLEntry
+        GLEntry.SetRange("Posting Date", 0D, EndDate);
+        if GLEntry.CalcSums(Amount) then
+            exit(GLEntry.Amount);
+        exit(0);
+    end;
+}
