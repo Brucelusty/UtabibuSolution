@@ -1,0 +1,429 @@
+//************************************************************************
+tableextension 172006 "UsersetupExt" extends "User Setup"
+{
+    fields
+    {
+        // Add changes to table fields here
+        field(172000; Leave; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(172008; "Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(172009; tetst; Code[20])
+        {
+            CaptionClass = '1,2,2';
+            Caption = 'Shortcut Dimension 2 Code';
+            DataClassification = ToBeClassified;
+            Description = 'Stores the reference of the second global dimension in the database';
+            NotBlank = false;
+            TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
+        }
+        field(172010; "Code 2"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(172011; "Code 3"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(172027; "Cash Advance Staff Account"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = Customer."No." where("Account Type" = const("Staff Advance"));
+        }
+        field(172030; "ReOpen/Release"; Option)
+        {
+            DataClassification = ToBeClassified;
+            OptionMembers = " ",ReOpen,Release;
+        }
+        field(172031; "Location Code"; Code[10])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = Location.Code;
+        }
+        field(172100; "Edit Posted Dimensions"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(172110; "Journal Template Name"; Code[10])
+        {
+            Caption = 'Journal Template Name';
+            DataClassification = ToBeClassified;
+            TableRelation = "Gen. Journal Template";
+        }
+        field(172111; "Journal Batch Name"; Code[10])
+        {
+            Caption = 'Journal Batch Name';
+            DataClassification = ToBeClassified;
+            TableRelation = "Gen. Journal Batch".Name where("Journal Template Name" = field("Journal Template Name"));
+        }
+        field(172112; "Password Does Not Expire"; Boolean)
+        {
+            Caption = 'Password Does Not Expire';
+            DataClassification = SystemMetadata;
+        }
+        field(172113; "Excempt OTP"; Boolean)
+        {
+
+        }
+        field(172114; "OTP Send"; Boolean)
+        {
+
+        }
+        field(172115; "OTPSentTimestamp"; DateTime)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53900; "Global Dimension 2 Code"; Code[20])
+        {
+            CaptionClass = '1,1,2';
+            DataClassification = ToBeClassified;
+            TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
+        }
+        field(53901; "Responsibility Center"; Code[10])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Online Access Group Priveleges".Dashboard;
+        }
+        field(53902; "Global Dimension 1 Code"; Code[20])
+        {
+            CaptionClass = '1,1,1';
+            DataClassification = ToBeClassified;
+            TableRelation = "Dimension Value".Code where("Global Dimension No." = const(1));
+        }
+        field(53903; "Unlimited PV Amount Approval"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53904; "PV Amount Approval Limit"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53905; "Unlimited PettyAmount Approval"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53906; "Petty C Amount Approval Limit"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53907; "Unlimited Imprest Amt Approval"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53908; "Imprest Amount Approval Limit"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53909; "Unlimited Store RqAmt Approval"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53910; "Store Req. Amt Approval Limit"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53911; "Shortcut Dimension 2 Code"; Code[20])
+        {
+            CaptionClass = '1,2,2';
+            Caption = 'Shortcut Dimension 2 Code';
+            DataClassification = ToBeClassified;
+            Description = 'Stores the reference of the second global dimension in the database';
+            NotBlank = false;
+            TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
+        }
+        field(53912; "Shortcut Dimension 3 Code"; Code[20])
+        {
+            CaptionClass = '1,2,3';
+            Caption = 'Shortcut Dimension 3 Code';
+            DataClassification = ToBeClassified;
+            Description = 'Stores the reference of the Third global dimension in the database';
+            TableRelation = "Dimension Value".Code where("Global Dimension No." = const(3));
+        }
+        field(53913; "Shortcut Dimension 4 Code"; Code[20])
+        {
+            CaptionClass = '1,2,4';
+            Caption = 'Shortcut Dimension 4 Code';
+            DataClassification = ToBeClassified;
+            Description = 'Stores the reference of the Third global dimension in the database';
+            TableRelation = "Dimension Value".Code where("Global Dimension No." = const(4));
+        }
+        field(53914; "Unlimited ImprestSurr Amt Appr"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53915; "ImprestSurr Amt Approval Limit"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53916; "Unlimited Interbank Amt Appr"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53917; "Interbank Amt Approval Limit"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53918; "Staff Travel Account"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = Customer."No." where("Account Type" = const("Travel Advance"));
+        }
+        field(53919; "Post JVs"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53920; "Post Bank Rec"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53921; "Unlimited Receipt Amt Approval"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53922; "Receipt Amt Approval Limit"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53923; "Unlimited Claim Amt Approval"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53924; "Claim Amt Approval Limit"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53925; "Unlimited Advance Amt Approval"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53926; "Advance Amt Approval Limit"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53927; "Unlimited AdvSurr Amt Approval"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53928; "AdvSurr Amt Approval Limit"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53929; "Other Advance Staff Account"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = Customer."No." where("Account Type" = const("Staff Advance"));
+        }
+        field(53930; "Unlimited Grant Amt Approval"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53931; "Grant Amt Approval Limit"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53932; "Unlimited GrantSurr Approval"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53933; "GrantSurr Amt Approval Limit"; Decimal)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53934; "User Signature"; Blob)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(53935; "Post Staff Grants"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(54278; "ReValidate LPOs"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+            Description = 'Can ReOpen Expired LPOs';
+        }
+        field(54279; "Procurement Officer"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(54280; "Compliance/Grants"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(54281; "Payroll Code"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "prPayroll Type";
+        }
+        field(54282; test; Text[30])
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(54283; "Archiving User"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "User Setup"."User ID";
+        }
+        field(54284; "Member Registration"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(54285; "Member Verification"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(54286; "CPD User"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(54287; "Indexing User"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(54288; "Post CPD Adjst"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(1726000; "Employee no"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "HR Employees"."No.";
+        }
+        field(1726001; "View Payroll"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(1726002; "Create Vote"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(1726003; "Cancel Requisition"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(1726004; "Create Item"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(1726005; "Reversal Right"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(1726006; "Change GL"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(1726007; "Post Stores Requisition"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(1726008; "Re-Open Batch"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(1726009; "View Special Accounts"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(1726010; "Allow Back-Dating Transactions"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(1726011; "Allow Process Payroll"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(1726012; "Unblock Loan Application"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(1726013; "Is Manager"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(1726014; "Is Internal Auditor"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(1726015; "Post Pv"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(172120; "Branch Code"; code[250])
+        {
+            DataClassification = ToBeClassified;
+            TableRelation = "Dimension Value".Code where("Global Dimension No." = const(2));
+        }
+        field(172018; Lien; Boolean) { }
+        field(17220; "Edit Branch"; Boolean)
+        {
+
+        }
+
+        field(17221; "Allow Open My Settings"; Boolean)
+        {
+            Caption = 'Allow Open My Settings';
+            DataClassification = CustomerContent;
+        }
+        field(17222; "Allow Change Role"; Boolean)
+        {
+            Caption = 'Allow Change Role';
+            DataClassification = CustomerContent;
+        }
+        field(17223; "Allow Change Company"; Boolean)
+        {
+            Caption = 'Allow Change Company';
+            DataClassification = CustomerContent;
+        }
+        field(17224; "Allow Change Work Day"; Boolean)
+        {
+            Caption = 'Allow Change Work Day';
+            DataClassification = CustomerContent;
+        }
+        field(17225; "Send Login OTP"; Boolean)
+        {
+
+        }
+        field(17226; "View Payslip"; Boolean)
+        {
+
+        }
+        field(17227; "Mark loan As Performing"; Boolean)
+        {
+
+        }
+        field(17228; "Can Delegate Requests"; Boolean)
+        {
+            Caption = 'Can Delegate Requests';
+            DataClassification = ToBeClassified;
+        }
+        field(17229; "Allow Backdating"; Boolean)
+        {
+
+            DataClassification = ToBeClassified;
+        }
+        field(17230; "Can Edit COA"; Boolean)
+        {
+
+        }
+        field(17231; "Can whitelist"; Boolean) { }
+        field(17232; "Special Accounts"; Boolean) { }
+
+    }
+
+
+
+
+
+
+
+    var
+        myInt: Integer;
+
+}
+
+
