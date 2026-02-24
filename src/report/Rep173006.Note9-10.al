@@ -411,4 +411,5 @@ end;
         // else
             Amount := GLEntry.Amount;
         exit(Amount);
+    end;
 }
