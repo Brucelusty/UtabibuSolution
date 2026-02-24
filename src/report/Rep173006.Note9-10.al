@@ -268,21 +268,37 @@ report 173006 "Note9-10"
 
         Total9b := MonarchDevelopers + ProvisionMonarch;
 
-        // ── 10 ───────────────────────────────────────────────────────────────
-        // Balance Bfwd = 400220 + 400221 closing balance of PREVIOUS year
-        // (brought forward = what was the closing balance last year)
-        BalanceBfwd := GetClosingBalance('400221', PreviousYearEnd);
+        // ── 10 Sundry Receivables Calculations ───────────────────────────────
+// Using ONLY account 400221 for Sundry Receivables
 
-        // Sacco Personal Loan = Debit entries only in current period (additions)
-        SaccoPersonalLoan := GetPeriodDebits('400220', CurrentYearStart, CurrentYearEnd) +
-                             GetPeriodDebits('400221', CurrentYearStart, CurrentYearEnd);
+// Balance Bfwd = 400221 closing balance of PREVIOUS year
+// This is the opening balance for the current year
+BalanceBfwd := GetClosingBalance('400221', PreviousYearEnd);
 
-        // Less Amount Paid = Credit entries only in current period (reductions)
-        LessAmountPaid := GetPeriodCredits('400220', CurrentYearStart, CurrentYearEnd) +
-                          GetPeriodCredits('400221', CurrentYearStart, CurrentYearEnd);
+// For Previous Year column (Balance Bfwd previous year)
+// This would be the closing balance of the year before previous year
+BalanceBfwd_Prev := GetClosingBalance('400221', PreviousYearEnd-1);
 
-        // Less Provision = 400226 closing balance
-        ProvisionSundry := GetClosingBalance('400226', CurrentYearEnd);
+// Sacco Personal Loan = Debit entries only in current period (additions) for 400221
+// These are new loans/disbursements during the year
+SaccoPersonalLoan := GetPeriodDebits('400221', CurrentYearStart, CurrentYearEnd);
+
+// For Previous Year column
+SaccoPersonalLoan_Prev := GetPeriodDebits('400221', PreviousYearStart, PreviousYearEnd);
+
+// Less Amount Paid = Credit entries only in current period (reductions) for 400221
+// These are repayments received during the year
+LessAmountPaid := GetPeriodCredits('400221', CurrentYearStart, CurrentYearEnd);
+
+// For Previous Year column
+LessAmountPaid_Prev := GetPeriodCredits('400221', PreviousYearStart, PreviousYearEnd);
+
+// Less Provision = 400226 closing balance
+// This is the provision for doubtful debts at year end
+ProvisionSundry := GetClosingBalance('400226', CurrentYearEnd);
+
+// For Previous Year column
+ProvisionSundry_Prev := GetClosingBalance('400226', PreviousYearEnd);
 
         Total10 := BalanceBfwd + SaccoPersonalLoan + LessAmountPaid + ProvisionSundry;
     end;
@@ -329,52 +345,55 @@ report 173006 "Note9-10"
     // ── Cumulative closing balance (0D → EndDate) ─────────────────────────────
     // For balance sheet accounts: receivables, payables, provisions
     // Returns the true ledger closing balance
-    local procedure GetClosingBalance(AccountNo: Code[20]; EndDate: Date): Decimal
-    var
-        GLEntry: Record "G/L Entry";
-    begin
-        GLEntry.SetRange("G/L Account No.", AccountNo);
-        GLEntry.SetRange("Posting Date", 0D, EndDate);
-        if GLEntry.CalcSums(Amount) then
-            exit(GLEntry.Amount);
-        exit(0);
-    end;
+    local procedure GetClosingBalance(AccountNo: Code[20]; AsAtDate: Date): Decimal
+var
+    GLEntry: Record "G/L Entry";
+begin
+    GLEntry.Reset();
+    GLEntry.SetRange("G/L Account No.", AccountNo);
+    GLEntry.SetFilter("Posting Date", '..%1', AsAtDate);
+    GLEntry.CalcSums(Amount);
+    
+    exit(GLEntry.Amount);
+end;
 
-    // ── Period debit movements (additions) ───────────────────────────────────
-    // For note 10: captures new loans/additions during the year only
-    local procedure GetPeriodDebits(AccountNo: Code[20]; StartDate: Date; EndDate: Date): Decimal
-    var
-        GLEntry: Record "G/L Entry";
-        TotalDebits: Decimal;
-    begin
-        TotalDebits := 0;
-        GLEntry.SetRange("G/L Account No.", AccountNo);
-        GLEntry.SetRange("Posting Date", StartDate, EndDate);
-        if GLEntry.FindSet() then
-            repeat
-                if GLEntry.Amount > 0 then
-                    TotalDebits += GLEntry.Amount;
-            until GLEntry.Next() = 0;
-        exit(TotalDebits);
+local procedure GetPeriodDebits(AccountNo: Code[20]; StartDate: Date; EndDate: Date): Decimal
+var
+    GLEntry: Record "G/L Entry";
+    Debits: Decimal;
+begin
+    GLEntry.Reset();
+    GLEntry.SetRange("G/L Account No.", AccountNo);
+    GLEntry.SetFilter("Posting Date", '%1..%2', StartDate, EndDate);
+    
+    if GLEntry.FindSet() then begin
+        repeat
+            if GLEntry.Amount > 0 then  // Debits are positive
+                Debits += GLEntry.Amount;
+        until GLEntry.Next() = 0;
     end;
+    
+    exit(Debits);
+end;
 
-    // ── Period credit movements (reductions/payments) ────────────────────────
-    // For note 10: captures amounts paid/recovered during the year only
-    local procedure GetPeriodCredits(AccountNo: Code[20]; StartDate: Date; EndDate: Date): Decimal
-    var
-        GLEntry: Record "G/L Entry";
-        TotalCredits: Decimal;
-    begin
-        TotalCredits := 0;
-        GLEntry.SetRange("G/L Account No.", AccountNo);
-        GLEntry.SetRange("Posting Date", StartDate, EndDate);
-        if GLEntry.FindSet() then
-            repeat
-                if GLEntry.Amount < 0 then
-                    TotalCredits += GLEntry.Amount;
-            until GLEntry.Next() = 0;
-        exit(TotalCredits);
+local procedure GetPeriodCredits(AccountNo: Code[20]; StartDate: Date; EndDate: Date): Decimal
+var
+    GLEntry: Record "G/L Entry";
+    Credits: Decimal;
+begin
+    GLEntry.Reset();
+    GLEntry.SetRange("G/L Account No.", AccountNo);
+    GLEntry.SetFilter("Posting Date", '%1..%2', StartDate, EndDate);
+    
+    if GLEntry.FindSet() then begin
+        repeat
+            if GLEntry.Amount < 0 then  // Credits are negative
+                Credits += -GLEntry.Amount;  // Convert to positive for display
+        until GLEntry.Next() = 0;
     end;
+    
+    exit(Credits);
+end;
 
     // ── Period-based net movement (StartDate → EndDate) ──────────────────────
     // For income/expense accounts: activity within a specific period only
@@ -392,5 +411,4 @@ report 173006 "Note9-10"
         // else
             Amount := GLEntry.Amount;
         exit(Amount);
-    end;
 }

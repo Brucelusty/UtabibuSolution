@@ -392,7 +392,7 @@ report 173003 "Note 6"
             column(Depreciation_Previous; GetExpenseBalance('902140', PreviousYearStart, PreviousYearEnd)) { DecimalPlaces = 2 : 2; }
 
             column(OtherRoutingExpenses_No; '902160') { }
-            column(OtherRoutingExpenses_Name; 'Other Routing Expenses') { }
+            column(OtherRoutingExpenses_Name; 'Other Plot Expenses') { }
             column(OtherRoutingExpenses_Current; GetExpenseBalance('902160', CurrentYearStart, CurrentYearEnd)) { DecimalPlaces = 2 : 2; }
             column(OtherRoutingExpenses_Previous; GetExpenseBalance('902160', PreviousYearStart, PreviousYearEnd)) { DecimalPlaces = 2 : 2; }
 
@@ -667,14 +667,10 @@ report 173003 "Note 6"
             GetRawExpenseBalance('900050', StartDate, EndDate) +
             GetRawExpenseBalance('900051', StartDate, EndDate) +
             GetRawExpenseBalance('900052', StartDate, EndDate) +
-            GetRawExpenseBalance('900053', StartDate, EndDate) +
+            GetRawExpenseBalance('901021', StartDate, EndDate) +
+            GetRawExpenseBalance('900151', StartDate, EndDate) +
             GetRawExpenseBalance('900060', StartDate, EndDate) +
-            GetRawExpenseBalance('900111', StartDate, EndDate) +
-            GetRawExpenseBalance('900120', StartDate, EndDate) +
-            GetRawExpenseBalance('900121', StartDate, EndDate) +
-            GetRawExpenseBalance('900130', StartDate, EndDate) +
             GetRawExpenseBalance('902020', StartDate, EndDate) +
-            GetRawExpenseBalance('902021', StartDate, EndDate) +
             GetRawExpenseBalance('902022', StartDate, EndDate) +
             GetRawExpenseBalance('902023', StartDate, EndDate) +
             GetRawExpenseBalance('902024', StartDate, EndDate) +
@@ -690,12 +686,13 @@ report 173003 "Note 6"
             GetRawExpenseBalance('902060', StartDate, EndDate) +
             GetRawExpenseBalance('902070', StartDate, EndDate) +
             GetRawExpenseBalance('902071', StartDate, EndDate) +
-            GetRawExpenseBalance('902080', StartDate, EndDate) );
-            // GetRawExpenseBalance('902100', StartDate, EndDate) +
-            // GetRawExpenseBalance('902110', StartDate, EndDate) +
-            // GetRawExpenseBalance('902160', StartDate, EndDate) +
-            // GetRawExpenseBalance('902180', StartDate, EndDate)+
-            // GetRawExpenseBalance('900151', StartDate, EndDate));
+            GetRawExpenseBalance('902080', StartDate, EndDate) +
+            GetRawExpenseBalance('902100', StartDate, EndDate) +
+            GetRawExpenseBalance('902110', StartDate, EndDate) +
+            GetRawExpenseBalance('902160', StartDate, EndDate) +
+            GetRawExpenseBalance('902180', StartDate, EndDate) +
+            GetRawExpenseBalance('902090', StartDate, EndDate)); 
+           
     end;
 
     local procedure GetCommitteeSittingTotal(StartDate: Date; EndDate: Date): Decimal
@@ -810,7 +807,6 @@ report 173003 "Note 6"
             GetMarketingExpensesTotal(StartDate, EndDate) +
             GetFinancialExpensesTotal(StartDate, EndDate) +
              GetGovernanceExpensesTotal(StartDate, EndDate) +
-            // GetExpenseBalance('902140', StartDate, EndDate) +
-            GetPayrollExpensesTotal(StartDate, EndDate));
+           GetPayrollExpensesTotal(StartDate, EndDate));
     end;
 }
