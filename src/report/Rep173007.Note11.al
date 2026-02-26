@@ -1,3 +1,10 @@
+report 173007 "Note 11"
+{
+UsageCategory = ReportsAndAnalysis;
+ApplicationArea = All;
+Caption = 'Fixed Assets Report';
+DefaultLayout = RDLC;
+RdlcLayout = 'Layouts/Note10.rdlc';
 dataset
 {
     dataitem(ReportHeader; "Company Information")
